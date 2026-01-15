@@ -27,6 +27,11 @@ class ProductRepository
         return $product->decrement('quantity', $quantity) > 0;
     }
 
+    public function incrementProductQuantity(Product $product, int $quantity = 1): bool
+    {
+        return $product->increment('quantity', $quantity) > 0;
+    }
+
     public function createProduct(array $data): Product
     {
         return Product::create($data);

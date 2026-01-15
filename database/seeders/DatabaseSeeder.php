@@ -15,12 +15,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(1)->create();
+        $user = User::factory(1)->create();
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $token = $user->first()->createToken(
+            'api-seeder-token'
+        )->plainTextToken;
+
+        $this->command->info('API TOKEN (save this, it will not be shown again):');
+        $this->command->line($token);
 
         $this->call([
             ProductSeeder::class,
