@@ -13,7 +13,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/products/all', [ProductController::class, 'getAllProducts']);
     Route::get('/products/in-stock', [ProductController::class, 'getProductsInStock']);
 
-    Route::post('/products/add', [ProductController::class, 'addQuantityToExistingProducts']);
+    Route::post('/products/add-quantity', [ProductController::class, 'addQuantityToExistingProducts']);
 
     Route::post('/create-order', [OrderController::class, 'create']);
 });
