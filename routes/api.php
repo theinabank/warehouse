@@ -10,10 +10,10 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/products/all', [ProductController::class, 'getAllProducts']);
+    Route::get('/products', [ProductController::class, 'getAllProducts']);
     Route::get('/products/in-stock', [ProductController::class, 'getProductsInStock']);
 
-    Route::post('/products/add-quantity', [ProductController::class, 'addQuantityToExistingProducts']);
+    Route::put('/products/add-quantity', [ProductController::class, 'addQuantityToExistingProducts']);
 
-    Route::post('/create-order', [OrderController::class, 'create']);
+    Route::post('/orders', [OrderController::class, 'create']);
 });

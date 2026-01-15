@@ -14,12 +14,14 @@ The project follows **best practices**:
 - **Repository pattern** for database access  
 - **Form Requests** for input validation with custom error messages  
 - **Transaction-safe operations** to maintain data consistency  
-- **Unit and feature tests** using Mockery for reliable testing  
+- **Tests** using Mockery for reliable testing  
 
 ---
 
 ## Requirements
 
+- PHP >= 8.4
+- Composer
 - WSL (if running in Windows)
 - Docker
 
@@ -28,8 +30,11 @@ The project follows **best practices**:
 ## Installation
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/warehouse-api.git
-cd warehouse-api
+git clone https://github.com/theinabank/warehouse.git
+cd warehouse
+
+# Run composer install
+composer install
 
 # Start docker
 ./vendor/bin/sail up -d
@@ -43,11 +48,16 @@ http://localhost
 # Copy example environment file
 cp .env.example .env
 
-# Run migrations
-php artisan migrate
+# Generate app key 
+./vendor/bin/sail artisan key:generate
 
-# Seed initial data
-php artisan db:seed
+# Run migrations
+./vendor/bin/sail artisan migrate
+
+# Seed initial data (will create products (20), orders (5), one user and an API TOKEN)
+./vendor/bin/sail artisan db:seed
+
+# Copy the API TOKEN (1|b0xBzTKuBn...)
 ```
 
 ---
@@ -58,7 +68,7 @@ php artisan db:seed
 
 #### 1. Get All Products
 
-GET /api/products/all
+GET /api/products
 
 **Query Parameters:**
 
@@ -67,7 +77,7 @@ GET /api/products/all
 
 **Example Request:**
 
-GET /api/products/all?per_page=2&cursor=eyJpZCI6MiwiX3BvaW50c1RvTmV4dEl0ZW1zIjp0cnVlfQ
+GET /api/products?per_page=2&cursor=eyJpZCI6MiwiX3BvaW50c1RvTmV4dEl0ZW1zIjp0cnVlfQ
 
 **Example Response:**
 
@@ -150,17 +160,17 @@ GET /api/products/in-stock?per_page=2
 
 #### 3. Update product quantity
 
-POST /api/products/add-quantity
+PUT /api/products/add-quantity
 
 **Query Parameters:**
 
-- `products` - array of products to add
-    - `id` (required) – existing product ID to increment quantity
-    - `quantity` (required) – number to add
+- `products` - array of products
+    - `id` (required) – existing product ID
+    - `quantity` (required) – number to increment quantity
 
 **Example Request:**
 
-POST /api/products/add-quantity
+PUT /api/products/add-quantity
 
 ```json
 {
@@ -209,17 +219,17 @@ POST /api/products/add-quantity
 
 #### 1. Create Order
 
-POST /api/create-order
+POST /api/orders
 
 **Query Parameters:**
 
-- `products` - array of products to add
-    - `id` (required) – existing product ID to increment quantity
-    - `quantity` (required) – number to add
+- `products` - array of products
+    - `id` (required) – existing product ID 
+    - `quantity` (required) – number to decrement quantity
 
 **Example Request:**
 
-POST /api/create-order
+POST /api/orders
 
 ```json
 {
