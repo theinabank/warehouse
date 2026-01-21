@@ -112,7 +112,7 @@ class OrderService
         }
 
         $this->orderRepository->updateOrder($order, [
-            'total_price' => number_format($totalPrice, 2, '.', '')
+            'total_price' => $totalPrice,
         ]);
 
         DB::commit();

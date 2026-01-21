@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Exceptions\OrderCreateException;
 use App\Http\Requests\OrderRequest;
+use App\Http\Resources\OrderResource;
 use App\Services\OrderService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller as BaseController;
@@ -23,7 +24,7 @@ class OrderController extends BaseController
 
             return response()->json([
                 'message' => 'Order created successfully',
-                'order' => $order->load('orderProducts')
+                'order' => new OrderResource($order->load('orderProducts'))
             ], 201);
         } catch (OrderCreateException $e) {
             return response()->json([

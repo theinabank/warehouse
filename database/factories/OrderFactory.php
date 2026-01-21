@@ -57,7 +57,9 @@ class OrderFactory extends Factory
                     $totalPrice += $product->price * $quantityTaken;
                 }
 
-                $order->update(['total_price' => number_format($totalPrice, 2, '.', '')]);
+                $order->update([
+                    'total_price' => $totalPrice,
+                ]);
             });
         });
     }

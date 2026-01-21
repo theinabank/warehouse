@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\AddQuantityProductsRequest;
 use App\Http\Requests\ProductIndexRequest;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
@@ -21,7 +22,7 @@ class ProductController extends BaseController
     private function paginatedResponse(CursorPaginator $products): JsonResponse
     {
         return response()->json([
-            'data' => $products->items(),
+            'data' => ProductResource::collection($products->items()),
             'meta' => [
                 'per_page' => $products->perPage(),
                 'next_cursor' => optional($products->nextCursor())->encode(),
@@ -59,7 +60,7 @@ class ProductController extends BaseController
 
         return response()->json([
             'message' => 'Products updated successfully',
-            'data' => $updatedProducts,
+            'data' => ProductResource::collection($updatedProducts),
         ]);
     }
 }
